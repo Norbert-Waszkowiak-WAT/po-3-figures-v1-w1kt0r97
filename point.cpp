@@ -4,7 +4,7 @@
 #include <iomanip>
 
 Point::Point(double x, double y): x(x), y(y) {};
-Point::Point (Point &other): x(other.x), y(other.y) {};
+Point::Point (const Point &other): x(other.x), y(other.y) {};
 
 double Point::getX() {
     return x;
@@ -14,8 +14,8 @@ double Point::getY() {
     return y;
 }
 
-bool Point::equals(Point &other) {
-    return other.getX() == x && other.getY() == y;
+bool Point::equals(const Point &other) {
+    return other.x == x && other.y == y;
 }
 
 void Point::flip() {

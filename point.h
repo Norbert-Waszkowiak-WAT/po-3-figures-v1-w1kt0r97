@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#ifndef H_POINT
-#define H_POINT
+#ifndef POINT_H
+#define POINT_H
 
 using namespace std;
 
@@ -15,9 +15,9 @@ class Point {
     public:
         Point(double x, double y);
 
-        Point (Point &other);
+        Point (const Point &other);
 
-        bool equals(Point &other);
+        bool equals(const Point &other);
 
         double getX();
 
