@@ -29,6 +29,8 @@ class Point {
 
         string toString();
 
+        double distanceTo(const Point &other);
+
 };
 
 #endif
