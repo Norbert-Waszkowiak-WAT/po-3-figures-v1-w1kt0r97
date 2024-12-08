@@ -15,8 +15,8 @@ private:
     Point d;
 public:
     Quadrilateral(Point a, Point b, Point c, Point d);
-    Quadrilateral(Quadrilateral &other);
-    bool equals(Quadrilateral &other);
+    Quadrilateral(const Quadrilateral &other);
+    bool equals(const Quadrilateral &other);
     void flip();
     void move(double x, double y);
     double getSurface();

@@ -30,8 +30,3 @@ string Point::toString(){
         oss<<"Point(" << x << ", " << y << ")";
         return oss.str();
 };
-double Point::distanceTo(const Point &other) {
-    double dx = x - other.x;
-    double dy = y - other.y;
-    return sqrt(dx * dx + dy * dy);
-};

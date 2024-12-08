@@ -7,10 +7,10 @@
 Quadrilateral :: Quadrilateral(Point a, Point b, Point c, Point d)
 : a(a), b(b), c(c), d(d){};
 
-Quadrilateral :: Quadrilateral(Quadrilateral &other)
+Quadrilateral :: Quadrilateral(const Quadrilateral &other)
 : a(other.a), b(other.b), c(other.c), d(other.d){};
 
-bool Quadrilateral :: equals(Quadrilateral &other){
+bool Quadrilateral :: equals(const Quadrilateral &other){
     return a.equals(other.a) && b.equals(other.b) && c.equals(other.c) && d.equals(other.d);
 }
 
@@ -28,18 +28,44 @@ void Quadrilateral :: move(double x, double y){
     d.move(x, y);
 }
 
-double Quadrilateral :: getSurface(){
-    double ab = a.distanceTo(b);
-    double bc = b.distanceTo(c);
-    double cd = c.distanceTo(d);
-    double da = d.distanceTo(a);
+#include "point.h"
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <cmath>
 
-    double s = (ab + bc + cd + da) / 2.0;
+Point :: Point (double x, double y) : x(x), y(y){};
+Point :: Point (const Point &other) : x(other.x), y(other.y){};
 
-    double area = sqrt((s - ab) * (s - bc) * (s - cd) * (s - da));
-
-    return area;
+double Point::getX(){
+    return x;
 };
+double Point::getY(){
+    return y;
+};
+bool Point::equals(const Point &other){
+    return other.x == x && other.y == y;
+};
+void Point::flip(){
+    x*=-1;
+    y*=-1;
+};
+void Point::move(double x, double y){
+    this->x+=x;
+    this->y+=y;
+};
+string Point::toString(){
+        ostringstream oss;
+        oss<<fixed<<setprecision(1);
+        oss<<"Point(" << x << ", " << y << ")";
+        return oss.str();
+};
+double Point::distanceTo(const Point &other) {
+    double dx = x - other.x;
+    double dy = y - other.y;
+    return sqrt(dx * dx + dy * dy);
+};
+
 string Quadrilateral :: toString(){
     std :: ostringstream oss;
     oss << "Quadrilateral(" << a.toString() << ", " << b.toString() << ", " << c.toString() << ", " << d.toString() << ")";
