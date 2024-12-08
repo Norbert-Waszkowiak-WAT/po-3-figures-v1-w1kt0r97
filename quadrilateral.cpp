@@ -1,73 +1,51 @@
 #include "quadrilateral.h"
-#include <sstream>
-#include <iomanip>
-#include <cmath>
-#include <iostream>
 
-Quadrilateral :: Quadrilateral(Point a, Point b, Point c, Point d)
-: a(a), b(b), c(c), d(d){};
+Quadrilateral::Quadrilateral(Point a, Point b, Point c, Point d) : a(a), b(b), c(c), d(d) {};
+Quadrilateral::Quadrilateral(const Quadrilateral &other) : a(other.a), b(other.b), c(other.c), d(other.d) {};
 
-Quadrilateral :: Quadrilateral(const Quadrilateral &other)
-: a(other.a), b(other.b), c(other.c), d(other.d){};
-
-bool Quadrilateral :: equals(const Quadrilateral &other){
+bool Quadrilateral::equals(const Quadrilateral &other)
+{
     return a.equals(other.a) && b.equals(other.b) && c.equals(other.c) && d.equals(other.d);
 }
 
-void Quadrilateral :: flip(){
+
+void Quadrilateral::flip()
+{
     a.flip();
     b.flip();
     c.flip();
     d.flip();
 }
 
-void Quadrilateral :: move(double x, double y){
+void Quadrilateral::move(double x, double y)
+{
     a.move(x, y);
     b.move(x, y);
     c.move(x, y);
     d.move(x, y);
 }
 
-#include "point.h"
-#include <iostream>
-#include <sstream>
-#include <iomanip>
-#include <cmath>
+double Quadrilateral::getSurface()
+{
+    double output = 0;
 
-Point :: Point (double x, double y) : x(x), y(y){};
-Point :: Point (const Point &other) : x(other.x), y(other.y){};
+    double all_x[] = { a.getX(), b.getX(), c.getX(), d.getX() };
+    double all_y[] = { a.getY(), b.getY(), c.getY(), d.getY() };
 
-double Point::getX(){
-    return x;
-};
-double Point::getY(){
-    return y;
-};
-bool Point::equals(const Point &other){
-    return other.x == x && other.y == y;
-};
-void Point::flip(){
-    x*=-1;
-    y*=-1;
-};
-void Point::move(double x, double y){
-    this->x+=x;
-    this->y+=y;
-};
-string Point::toString(){
-        ostringstream oss;
-        oss<<fixed<<setprecision(1);
-        oss<<"Point(" << x << ", " << y << ")";
-        return oss.str();
-};
-double Point::distanceTo(const Point &other) {
-    double dx = x - other.x;
-    double dy = y - other.y;
-    return sqrt(dx * dx + dy * dy);
-};
+    for(int i = 0; i < 4; i++)
+    {
+        double ip1 = i+1 >= 4 ? all_x[0] : all_x[i+1];
+        double im1 = i-1 <= 0 ? all_x[3] : all_x[i-1];
 
-string Quadrilateral :: toString(){
-    std :: ostringstream oss;
-    oss << "Quadrilateral(" << a.toString() << ", " << b.toString() << ", " << c.toString() << ", " << d.toString() << ")";
-    return oss.str();
-};
+        output += (all_y[i] * (im1 - ip1));
+    }
+
+    output = (output > 0) ? output : -output;
+    output /= 2;
+    return output;
+}
+
+std::string Quadrilateral::toString()
+{
+    return "Quadrilateral(" + a.toString() + ", " + b.toString() + ", " + c.toString() + ", " + d.toString() + ")";
+}
